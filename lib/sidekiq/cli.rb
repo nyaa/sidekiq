@@ -383,7 +383,8 @@ module Sidekiq
 
     def parse_queue(opts, q, weight=nil)
       [weight.to_i, 1].max.times do
-       (opts[:queues] ||= []) << q
+       opts[:queues] ||= []
+       opts[:queues] += [q, "#{q}_host_#{`hostname`.strip}"]
       end
       opts[:strict] = false if weight.to_i > 0
     end
